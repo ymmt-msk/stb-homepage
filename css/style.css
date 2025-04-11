@@ -69,7 +69,10 @@ body {
 
 /* ヒーローセクション */
 .hero-section {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--light-gray) 100%);
+    /* background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); */
+    background-image: url('../images/main_background.jpg');
+    background-size: cover;
+    background-position: center;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -77,6 +80,7 @@ body {
     overflow: hidden;
 }
 
+/* 背景オーバーレイ */
 .hero-section::before {
     content: '';
     position: absolute;
@@ -84,14 +88,18 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23e74c3c" opacity="0.1"/></svg>') repeat;
-    opacity: 0.1;
-    z-index: 0;
+    background-color: rgba(255, 255, 255, 0.6);
+    z-index: 1;
 }
 
 .hero-section .container {
     position: relative;
-    z-index: 1;
+    z-index: 2;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .hero-section h1 {
@@ -99,27 +107,86 @@ body {
     margin-bottom: 1.5rem;
     font-weight: 800;
     line-height: 1.2;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 3.5rem;
 }
 
 .hero-section .lead {
     color: var(--text-color);
     font-size: 1.25rem;
     max-width: 600px;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.hero-buttons .btn {
+    padding: 0.8rem 2rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.hero-buttons .btn-primary {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.hero-buttons .btn-primary:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+.hero-buttons .btn-outline-primary {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.hero-buttons .btn-outline-primary:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.hero-image {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1) rotate(-45deg); }
+    50% { transform: scale(1.1) rotate(-45deg); }
+    100% { transform: scale(1) rotate(-45deg); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
 }
 
 /* 商品カード */
 .card {
     border: none;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
     border-radius: 15px;
     overflow: hidden;
 }
 
 .card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 .card-body {
@@ -135,15 +202,15 @@ body {
 
 /* 商品カテゴリごとの色分け */
 .card:nth-child(1) {
-    border-top: 4px solid var(--accent-color);
+    border-top: 3px solid var(--accent-color);
 }
 
 .card:nth-child(2) {
-    border-top: 4px solid var(--accent-color-2);
+    border-top: 3px solid var(--accent-color-2);
 }
 
 .card:nth-child(3) {
-    border-top: 4px solid var(--accent-color-3);
+    border-top: 3px solid var(--accent-color-3);
 }
 
 /* 会社概要セクション */
@@ -183,10 +250,18 @@ body {
 #about .card {
     margin-bottom: 2rem;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    height: 100%;
 }
 
 #about .map-container {
-    margin-top: 2rem;
+    height: 100%;
+    margin: 0;
+}
+
+#about .map-container iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
 }
 
 /* 地図コンテナ */
@@ -195,6 +270,8 @@ body {
     overflow: hidden;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
+    position: relative;
+    z-index: 1;
 }
 
 .map-container:hover {
@@ -218,15 +295,18 @@ footer p {
     text-align: center;
     margin-bottom: 3rem;
     position: relative;
+    color: var(--secondary-color);
+    font-weight: 700;
 }
 
 .section-title::after {
     content: '';
     display: block;
-    width: 50px;
-    height: 3px;
+    width: 40px;
+    height: 2px;
     background-color: var(--accent-color);
-    margin: 1rem auto;
+    margin: 0.8rem auto;
+    opacity: 0.7;
 }
 
 /* アニメーション */
@@ -256,11 +336,28 @@ footer p {
         font-size: 2.5rem;
     }
 
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .hero-content {
+        padding: 0 1rem;
+    }
+
     .card {
         margin-bottom: 2rem;
     }
 
     .brand-icon {
         height: 25px;
+    }
+
+    /* モバイル時の地図コンテナの調整 */
+    .map-container:hover {
+        transform: none;
+    }
+
+    #about .map-container {
+        margin-top: 2rem;
     }
 } 
