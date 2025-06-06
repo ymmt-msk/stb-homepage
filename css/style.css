@@ -372,4 +372,15 @@ footer p {
     #about .map-container {
         margin-top: 2rem;
     }
-} 
+}
+
+/* お問い合わせフォーム */
+#contact .contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#contact .btn-primary {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
