@@ -10,6 +10,19 @@ function sanitize(str) {
   }[c]));
 }
 
+function ContactComplete({ onBackHome }) {
+  return (
+    React.createElement('div', { className: 'contact-complete text-center py-5' },
+      React.createElement('h2', null, 'お問い合わせありがとうございました'),
+      React.createElement('p', null, 'お問い合わせ内容を受け付けました。担当者より折り返しご連絡いたします。'),
+      React.createElement('button', {
+        className: 'btn btn-primary mt-4',
+        onClick: onBackHome
+      }, 'ホームページに戻る')
+    )
+  );
+}
+
 function ContactForm() {
   const [form, setForm] = useState({
     name: '',
@@ -18,6 +31,7 @@ function ContactForm() {
     company: '',
     message: ''
   });
+  const [complete, setComplete] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,16 +54,24 @@ function ContactForm() {
         body: JSON.stringify(payload)
       });
       if (res.ok) {
-        alert('\u9001\u4fe1\u304c\u5b8c\u4e86\u3057\u307e\u3057\u305f');
         setForm({ name: '', email: '', phone: '', company: '', message: '' });
+        setComplete(true);
       } else {
-        alert('\u9001\u4fe1\u306b\u5931\u6557\u3057\u307e\u3057\u305f');
+        alert('送信に失敗しました');
       }
     } catch (err) {
       console.error(err);
-      alert('\u30b5\u30fc\u30d0\u30fc\u3067\u30a8\u30e9\u30fc\u304c\u767a\u751f\u3057\u307e\u3057\u305f');
+      alert('サーバーでエラーが発生しました');
     }
   };
+
+  const handleBackHome = () => {
+    window.location.href = '/';
+  };
+
+  if (complete) {
+    return React.createElement(ContactComplete, { onBackHome: handleBackHome });
+  }
 
   return (
     React.createElement('form', { onSubmit: handleSubmit, className: 'contact-form' },
