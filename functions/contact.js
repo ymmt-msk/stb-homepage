@@ -9,7 +9,8 @@ export async function onRequestPost({ request }) {
 
     const data = {
       personalizations: [{ to: [{ email: 'info@stbshoukai.com' }] }],
-      from: { email },
+      from: { email: 'no-reply@stbshoukai.com', name: 'Contact Form' },
+      reply_to: { email, name },
       subject: `お問い合わせ from ${name}`,
       content: [{ type: 'text/plain', value: text }]
     };
