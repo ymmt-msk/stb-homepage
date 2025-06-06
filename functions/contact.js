@@ -1,4 +1,7 @@
+import { Resend } from 'resend';
+
 const RESEND_API_KEY = 're_2NoQNoJY_NhTkEQhobeGjsvpmZmadFTDT';
+const resend = new Resend(RESEND_API_KEY);
 
 export async function onRequestPost({ request }) {
   try {
@@ -17,16 +20,9 @@ export async function onRequestPost({ request }) {
       text
     };
 
-    const send = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${RESEND_API_KEY}`
-      },
-      body: JSON.stringify(data)
-    });
+    const send = await resend.emails.send(data);
 
-    if (!send.ok) {
+    if (send.error) {
       return new Response('Mail error', { status: 500 });
     }
 
