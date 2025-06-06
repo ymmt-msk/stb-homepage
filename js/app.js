@@ -23,6 +23,17 @@ function ContactComplete({ onBackHome }) {
   );
 }
 
+function LoadingScreen() {
+  return (
+    React.createElement('div', { className: 'contact-loading text-center py-5' },
+      React.createElement('div', { className: 'spinner-border text-primary mb-3', role: 'status' },
+        React.createElement('span', { className: 'visually-hidden' }, '送信中...')
+      ),
+      React.createElement('div', null, '送信中...')
+    )
+  );
+}
+
 function ContactForm() {
   const [form, setForm] = useState({
     name: '',
@@ -31,7 +42,7 @@ function ContactForm() {
     company: '',
     message: ''
   });
-  const [complete, setComplete] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +51,7 @@ function ContactForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const payload = {
       name: sanitize(form.name),
       email: sanitize(form.email),
@@ -54,23 +66,20 @@ function ContactForm() {
         body: JSON.stringify(payload)
       });
       if (res.ok) {
-        setForm({ name: '', email: '', phone: '', company: '', message: '' });
-        setComplete(true);
+        window.location.href = '/contact-complete.html';
       } else {
+        setLoading(false);
         alert('送信に失敗しました');
       }
     } catch (err) {
+      setLoading(false);
       console.error(err);
       alert('サーバーでエラーが発生しました');
     }
   };
 
-  const handleBackHome = () => {
-    window.location.href = '/';
-  };
-
-  if (complete) {
-    return React.createElement(ContactComplete, { onBackHome: handleBackHome });
+  if (loading) {
+    return React.createElement(LoadingScreen);
   }
 
   return (
