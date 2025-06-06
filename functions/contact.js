@@ -1,6 +1,4 @@
-const RESEND_API_KEY = 're_2NoQNoJY_NhTkEQhobeGjsvpmZmadFTDT';
-
-export async function onRequestPost({ request }) {
+export async function onRequestPost({ request, env }) {
   try {
     const { name, email, phone = '', company = '', message } = await request.json();
     if (!name || !email || !message) {
@@ -21,7 +19,7 @@ export async function onRequestPost({ request }) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${RESEND_API_KEY}`
+        Authorization: `Bearer ${env.RESEND_API_KEY}`
       },
       body: JSON.stringify(data)
     });
