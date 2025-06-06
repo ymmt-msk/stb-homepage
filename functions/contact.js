@@ -24,14 +24,16 @@ export async function onRequestPost({ request, env }) {
       body: JSON.stringify(data)
     });
 
+    const sendText = await send.text();
+
     if (!send.ok) {
-      return new Response('Mail error', { status: 500 });
+      return new Response(`Mail error: ${send.status} ${send.statusText} ${sendText}`, { status: 500 });
     }
 
     return new Response(JSON.stringify({ ok: true }), {
       headers: { 'Content-Type': 'application/json' }
     });
   } catch (err) {
-    return new Response('Server Error', { status: 500 });
+    return new Response(`Server Error: ${err.message || err}`, { status: 500 });
   }
 }
